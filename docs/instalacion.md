@@ -25,7 +25,7 @@ Resultado:
 
 Evidencia: 01-disco-expandido.png
 
-##Instalacion de Kubernetes
+## Instalacion de Kubernetes
 
 Para la implementación del proyecto se seleccionó K3s, una distribución ligera de Kubernetes adecuada para entornos de laboratorio y aprendizaje.
 
