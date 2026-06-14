@@ -24,3 +24,29 @@ Resultado:
 - Espacio libre aproximado: 15 GB
 
 Evidencia: 01-disco-expandido.png
+
+##Instalacion de Kubernetes
+
+Para la implementación del proyecto se seleccionó K3s, una distribución ligera de Kubernetes adecuada para entornos de laboratorio y aprendizaje.
+
+### Instalación de K3s
+
+La instalación se realizó utilizando el script oficial:
+
+curl -sfL https://get.k3s.io | sh -
+
+### Configuración de kubectl
+
+Luego de la instalación se configuró el acceso al clúster mediante el archivo kubeconfig.
+
+Comandos utilizados:
+
+mkdir -p ~/.kube
+sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+sudo chown marcos:marcos ~/.kube/config
+chmod 600 ~/.kube/config
+
+Se verificó el correcto funcionamiento del nodo mediante:
+kubectl get nodes
+
+Resultado obetenido en caputra (k3s.instalado)
