@@ -42,8 +42,11 @@ Luego de la instalación se configuró el acceso al clúster mediante el archivo
 Comandos utilizados:
 
 mkdir -p ~/.kube
+
 sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+
 sudo chown marcos:marcos ~/.kube/config
+
 chmod 600 ~/.kube/config
 
 Se verificó el correcto funcionamiento del nodo mediante:
