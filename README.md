@@ -100,7 +100,7 @@ Se utilizaron Persistent Volumes (PV) y Persistent Volume Claims (PVC) para prop
 
 ## Configuración de Ingress
 
-Para permitir el acceso externo a la aplicación se configuró un recurso Ingress utilizando Traefik para exponer la aplicación mediante el dominio local 'wordpress.local'.
+Para permitir el acceso externo a la aplicación se configuró un recurso Ingress utilizando Traefik para exponer la aplicación mediante el dominio local `wordpress.local`.
 
 <img width="654" height="68" alt="ingress-creado" src="https://github.com/user-attachments/assets/0fa3ce0e-23c4-4b9d-9b30-4494af29663a" />
 
