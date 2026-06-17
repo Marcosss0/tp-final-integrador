@@ -56,12 +56,20 @@ Se instaló K3s como distribución ligera de Kubernetes sobre Ubuntu Server 24.0
 
 Se implementó MariaDB como motor de base de datos para WordPress. Para ello se crearon:
 
-* Secret para las credenciales.
-* Persistent Volume Claim para persistencia.
-* Deployment para la ejecución del contenedor.
-* Service para comunicación interna.
+- Secret para almacenar la contraseña de acceso.
+- Persistent Volume Claim (PVC) para garantizar la persistencia de los datos.
+- Deployment para ejecutar el contenedor MariaDB.
+- Service para permitir la comunicación interna dentro del clúster.
 
-**Capturas:** Despliegue y funcionamiento de MariaDB.
+La correcta implementación fue verificada comprobando que el Pod se encontraba en estado Running y que el PVC asociado estaba correctamente vinculado (Bound).
+
+### Service de MariaDB
+
+<img width="775" height="97" alt="mariadb-service" src="https://github.com/user-attachments/assets/9f2d3985-6b8c-4cbf-9930-c665bb5cca38" />
+
+### Pod y PVC de MariaDB
+
+<img width="1123" height="121" alt="mariadb-running-pvc-bound" src="https://github.com/user-attachments/assets/ee03fa5c-6ec7-4ae5-8728-eacd7c3ad38a" />
 
 ---
 
@@ -69,31 +77,33 @@ Se implementó MariaDB como motor de base de datos para WordPress. Para ello se 
 
 Se desplegó WordPress mediante un Deployment conectado al servicio de MariaDB. La aplicación quedó accesible desde el clúster y posteriormente mediante Ingress.
 
-**Capturas:** Despliegue y acceso a WordPress.
+<img width="646" height="67" alt="wordpress-mariadb-running" src="https://github.com/user-attachments/assets/ef5898d3-c908-4267-849e-392c06edc291" />
+
+### Acceso a WordPress mediante Ingress
+
+Una vez desplegada la aplicación y configurado el Ingress, se verificó el acceso a WordPress utilizando el dominio local configurado para el proyecto.
+
+<img width="1490" height="819" alt="wordpress-instalacion" src="https://github.com/user-attachments/assets/68938fbf-9867-4f12-a171-5769189be77d" />
 
 ---
 
 ## Persistencia de Datos
 
-Se utilizaron Persistent Volumes y Persistent Volume Claims para garantizar la persistencia de la información almacenada por WordPress y MariaDB.
+Se utilizaron Persistent Volumes (PV) y Persistent Volume Claims (PVC) para proporcionar almacenamiento persistente a los componentes del proyecto. Los volúmenes fueron utilizados tanto por WordPress y MariaDB como por el almacenamiento compartido basado en NFS.
 
-Esto permite conservar los datos incluso ante reinicios o recreación de Pods.
-
-**Capturas:** PVC y almacenamiento persistente.
+<img width="1332" height="249" alt="nfs-pv-pvc-bound" src="https://github.com/user-attachments/assets/ec3db58e-7288-48bd-a38d-31d8c2924803" />
 
 ---
 
 ## Configuración de Ingress
 
-Se configuró un recurso Ingress utilizando Traefik para exponer la aplicación mediante el dominio local:
+Para permitir el acceso externo a la aplicación se configuró un recurso Ingress utilizando Traefik para exponer la aplicación mediante el dominio local 'wordpress.local'.
 
-```text
-wordpress.local
-```
+<img width="654" height="68" alt="ingress-creado" src="https://github.com/user-attachments/assets/0fa3ce0e-23c4-4b9d-9b30-4494af29663a" />
 
-Esto permitió acceder a la aplicación sin necesidad de utilizar direcciones IP o puertos manuales.
+Posteriormente se verificó la configuración del recurso comprobando el host asociado, la clase Ingress utilizada y el Service de destino dentro del clúster Kubernetes.
 
-**Capturas:** Configuración del Ingress y acceso desde navegador.
+<img width="655" height="243" alt="ingress-describe" src="https://github.com/user-attachments/assets/e75d41b2-4b4c-4102-b068-42f142570926" />
 
 ---
 
