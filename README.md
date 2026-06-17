@@ -109,51 +109,74 @@ Posteriormente se verificó la configuración del recurso comprobando el host as
 ## Implementación de NFS
 
 Se configuró un servidor NFS para proporcionar almacenamiento compartido dentro del entorno.
+Posteriormente se creó un Persistent Volume (PV) asociado al recurso NFS y un Persistent Volume Claim (PVC) para permitir su utilización desde los Pods del clúster.
 
-Posteriormente se creó:
+Finalmente se verificó su funcionamiento mediante un Pod de prueba que escribió correctamente un archivo dentro del directorio exportado. La lectura posterior del archivo confirmó el correcto acceso al almacenamiento compartido.
 
-* Persistent Volume NFS.
-* Persistent Volume Claim NFS.
+### Persistent Volume y Persistent Volume Claim de NFS
 
-Finalmente se verificó su funcionamiento mediante un Pod de prueba que escribió correctamente un archivo dentro del recurso compartido.
+<img width="1332" height="249" alt="nfs-pv-pvc-bound" src="https://github.com/user-attachments/assets/653fbc5c-8fce-485c-a9e0-58e43fa7f673" />
 
-**Capturas:** Configuración y prueba de NFS.
+### Prueba de funcionamiento
+
+<img width="1121" height="129" alt="nfs-funcionando" src="https://github.com/user-attachments/assets/c63d22f3-7563-4532-ae3e-c6cddac63c0a" />
 
 ---
 
 ## Prueba de Tolerancia a Fallos
 
-Se realizó una prueba de self-healing eliminando manualmente el Pod de WordPress.
+Con el objetivo de verificar la capacidad de recuperación automática del clúster, se realizó una prueba de tolerancia a fallos sobre la aplicación WordPress.
+Inicialmente se comprobó que el Pod de WordPress se encontraba en ejecución junto al resto de los componentes del proyecto.
 
-Kubernetes detectó la pérdida de la réplica y creó automáticamente un nuevo Pod, manteniendo la disponibilidad de la aplicación.
+### Estado inicial de los Pods
 
-**Capturas:** Eliminación y recreación automática del Pod.
+<img width="554" height="113" alt="pods-antes-fallo" src="https://github.com/user-attachments/assets/5e3b2ed0-c19c-4940-a430-60b03f54e9f5" />
 
----
+Posteriormente se eliminó manualmente el Pod de WordPress para simular un fallo de la aplicación.
+
+Kubernetes detectó automáticamente la pérdida de la réplica y creó un nuevo Pod para mantener el estado deseado definido en el Deployment.
+
+### Eliminación y recreación automática del Pod
+
+<img width="664" height="118" alt="wordpress-post-fallo1" src="https://github.com/user-attachments/assets/3d366a24-bcc1-4e93-a9f8-066831a23d90" />
+
+Finalmente se verificó que el ReplicaSet continuaba manteniendo una réplica disponible y que la aplicación permanecía operativa.
+
+### Verificación del ReplicaSet
+
+<img width="534" height="175" alt="wordpress-post-fallo2" src="https://github.com/user-attachments/assets/b200b759-56ab-492b-9980-d4f034a50d27" />
+
 
 ## Implementación de Helm
 
-Se instaló Helm como gestor de paquetes para Kubernetes.
+Con el objetivo de simplificar la gestión y distribución de aplicaciones Kubernetes, se utilizó Helm como gestor de paquetes para Kubernetes.
 
-Durante la implementación se realizaron las siguientes tareas:
+Inicialmente se instaló Helm en el entorno de trabajo y se verificó su correcto funcionamiento.
 
-* Instalación de Helm.
-* Creación de un Chart.
-* Validación mediante `helm template`.
-* Empaquetado mediante `helm package`.
+### Instalación de Helm
 
-**Capturas:** Instalación y empaquetado del Chart.
+<img width="1301" height="141" alt="instalacion-helm" src="https://github.com/user-attachments/assets/8b538c0c-9a58-4e29-97eb-adcabfcffeda" />
+
+Posteriormente se creó un Chart denominado 'wordpress-chart', el cual contiene las plantillas necesarias para desplegar recursos Kubernetes.
+
+Se validó el funcionamiento del Chart utilizando el comando 'helm template', generando los manifiestos Kubernetes a partir de las plantillas definidas en el Chart.
+
+### Validación del Chart
+
+<img width="551" height="818" alt="helm-template" src="https://github.com/user-attachments/assets/a36cfc2c-e3a1-411d-84e7-2379edc15ba8" />
+
+Finalmente se empaquetó el Chart en un archivo comprimido '.tgz', permitiendo su reutilización y distribución.
+
+### Empaquetado del Chart
+
+<img width="976" height="76" alt="helm-package" src="https://github.com/user-attachments/assets/7eaba87f-7532-4354-b441-5084f6c51c5a" />
 
 ---
 
 ## Resultados Obtenidos
 
-Se logró desplegar correctamente una aplicación multicapa basada en WordPress y MariaDB sobre Kubernetes, incorporando persistencia de datos, almacenamiento compartido mediante NFS, acceso mediante Ingress, tolerancia a fallos y empaquetado mediante Helm.
+Se logró desplegar correctamente una aplicación WordPress con base de datos MariaDB sobre Kubernetes utilizando K3s.
 
----
+Además, se implementaron mecanismos de persistencia mediante PV y PVC, almacenamiento compartido con NFS, acceso mediante Ingress utilizando wordpress.local, tolerancia a fallos mediante la recreación automática de Pods y empaquetado de recursos con Helm.
 
-## Conclusiones
-
-Este proyecto permitió aplicar conceptos avanzados de administración de sistemas relacionados con Kubernetes, almacenamiento persistente, servicios de red, tolerancia a fallos y automatización de despliegues.
-
-La integración de estas tecnologías permitió construir una solución funcional, escalable y alineada con prácticas modernas de infraestructura y orquestación de contenedores.
+El proyecto permitió integrar y validar el funcionamiento conjunto de todas estas tecnologías en un entorno funcional.
